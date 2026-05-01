@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADWAID AJITH | Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: #050505;
+      color: #e0e0e0;
+      line-height: 1.7;
+      scroll-behavior: smooth;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 8%;
+      position: fixed; 
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      transition: background 0.3s, backdrop-filter 0.3s;
+    }
+
+    nav.scrolled {
+      background: rgba(5, 5, 5, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    nav .logo { 
+      font-weight: 800; 
+      letter-spacing: -1px; 
+      text-decoration: none;
+      font-size: 1.5rem;
+      background: linear-gradient(90deg, #10b981, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: 0.3s;
+    }
+
+    nav .logo:hover { opacity: 0.8; }
+
+    nav ul { display: flex; list-style: none; gap: 30px; }
+    nav ul a { 
+      color: #888; 
+      text-decoration: none; 
+      font-size: 0.85rem; 
+      text-transform: uppercase; 
+      letter-spacing: 1px;
+      transition: 0.3s;
+    }
+    nav ul a:hover { color: #10b981; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .animate-on-scroll.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #home {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 8%;
+      background: radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+    }
+
+    .hero-element { opacity: 0; animation: fadeUp 0.8s ease forwards; }
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+
+    .status-pill {
+      display: inline-block;
+      padding: 5px 12px;
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      width: fit-content;
+    }
+
+    h1 {
+      font-size: clamp(3.5rem, 10vw, 6rem);
+      line-height: 1;
+      color: #fff;
+      margin-bottom: 20px;
+      letter-spacing: -2px;
+    }
+
+    .highlight {
+      background: linear-gradient(90deg, #10b981, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-p { font-size: 1.25rem; color: #888; max-width: 600px; margin-bottom: 35px; }
+
+    .hero-buttons { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+
+    .btn-cv {
+      background-color: #10b981;
+      color: #050505;
+      padding: 10px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: 0.3s transform, 0.3s background-color, 0.3s box-shadow;
+    }
+
+    .btn-cv:hover {
+      background-color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+    }
+
+    section { padding: 100px 8%; border-bottom: 1px solid #111; }
+    
+    .section-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #10b981;
+      margin-bottom: 40px;
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      padding: 40px;
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      border-radius: 4px;
+      transition: 0.4s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 250px;
+    }
+
+    .card:hover {
+      background: #0f0f0f;
+      border-color: #10b981;
+      transform: translateY(-8px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .card h3 { color: #fff; margin-bottom: 15px; font-size: 1.5rem; }
+    .card p { color: #888; font-size: 0.95rem; margin-bottom: 20px; }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 30px;
+    }
+
+    .skills-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      background: #0a0a0a;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #1a1a1a;
+    }
+
+    .skills-table th, .skills-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .skills-table th {
+      background-color: rgba(16, 185, 129, 0.05);
+      color: #10b981;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    .skills-table tr { transition: background-color 0.3s; }
+    .skills-table tr:hover { background-color: #111; }
+    .skills-table td { color: #e0e0e0; font-size: 0.95rem; }
+    .skills-table td.category { color: #888; font-weight: 500; }
+
+    .contact-container { display: flex; flex-direction: column; gap: 10px; }
+
+    .contact-big {
+      font-size: clamp(1.2rem, 3vw, 2.2rem);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      transition: 0.3s;
+      width: fit-content;
+    }
+
+    .contact-big:hover { color: #10b981; transform: translateX(10px); }
+
+    .social-link {
+        color: #888;
+        text-decoration: none;
+        font-weight: 600;
+        border-bottom: 1px solid #333;
+        width: fit-content;
+        transition: 0.3s;
+        font-size: 0.9rem;
+        margin-top: 20px;
+    }
+
+    .social-link:hover { color: #fff; border-color: #fff; }
+
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <a href="#" class="logo">A&A</a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section id="home">
+    <div class="status-pill hero-element">S2 CSE STUDENT</div>
+    <h1 class="hero-element delay-1">Adwaid <span class="highlight">Ajith.</span></h1>
+    <p class="hero-p hero-element delay-2">
+      I spend most of my time diving into how software actually functions and then trying to build my own projects. 
+      I'm all about making sites that aren't just cool to look at, but actually feel smooth and easy to use.
+    </p>
+    <div class="hero-buttons hero-element delay-3">
+      <a href="#projects" style="color: #fff; text-decoration: none; font-weight: 600; border-bottom: 2px solid #10b981; padding-bottom: 5px;">
+        View Selected Work &rarr;
+      </a>
+      <a href="CV.pdf" download class="btn-cv">Download CV</a>
+    </div>
+  </section>
+
+  <section id="about" class="animate-on-scroll">
+    <span class="section-title">About Me</span>
+    <p style="font-size: 1.5rem; color: #fff; max-width: 800px;">
+      I'm a Computer Science student with a big interest in software mechanics. 
+      I enjoy the process of turning a rough idea into a finished project, 
+      especially when it involves clean UI and smart design.
+    </p>
+    <p style="margin-top: 20px; color: #888; max-width: 800px;">
+      Beyond just coding, I'm fascinated by how users interact with digital tools. 
+      Whether it's a technical app or a marketing site, my goal is to make it 
+      functional and visually striking.
+    </p>
+  </section>
+
+  <section id="skills" class="animate-on-scroll">
+    <span class="section-title">Technical Proficiencies</span>
+    <div class="table-container">
+      <table class="skills-table">
+        <thead>
+          <tr>
+            <th>Domain</th>
+            <th>Technologies & Concepts</th>
+            <th>Proficiency Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="category">Core Programming</td>
+            <td>Java (Object-Oriented Programming), Python</td>
+            <td>Advanced</td>
+          </tr>
+          <tr>
+            <td class="category">Web Development</td>
+            <td>HTML5, CSS3, JavaScript (DOM Manipulation)</td>
+            <td>Intermediate</td>
+          </tr>
+          <tr>
+            <td class="category">Design & Theory</td>
+            <td>User Interface Design (UID), Algorithm Logic</td>
+            <td>Intermediate</td>
+          </tr>
+          <tr>
+            <td class="category">Tools & Systems</td>
+            <td>Git, API Integration, Hardware Optimization</td>
+            <td>Familiar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="projects" class="animate-on-scroll">
+    <span class="section-title">Selected Projects</span>
+    <div class="grid">
+      <div class="card">
+        <div>
+          <h3 style="color: #10b981;">Content Aggregator</h3>
+          <p>A Mihon-style application designed to pull and organize digital media from multiple sources into a single, unified interface.</p>
+        </div>
+        <div style="font-size: 0.75rem; color: #10b981; letter-spacing: 1px; font-weight: bold; opacity: 0.8;">API INTEGRATION • UI DESIGN</div>
+      </div>
+      <div class="card">
+        <div>
+          <h3>Task Manager</h3>
+          <p>A productivity tool built to practice clean code structure. It simplifies daily workflows through an intuitive dashboard.</p>
+        </div>
+        <div style="font-size: 0.75rem; color: #888; letter-spacing: 1px; font-weight: bold; opacity: 0.8;">HTML5 • MODULAR CSS</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="animate-on-scroll">
+    <span class="section-title">Get in touch</span>
+    <div class="contact-container">
+        <a href="mailto:adwaidajith66@gmail.com" class="contact-big">adwaidajith66@gmail.com</a>
+        <a href="tel:8590110311" class="contact-big">+91 8590110311</a>
+        <a href="https://github.com/AdwaidAjith" target="_blank" class="social-link">GitHub Profile &rarr;</a>
+    </div>
+  </section>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    const hiddenElements = document.querySelectorAll('.animate-on-scroll');
+    hiddenElements.forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
